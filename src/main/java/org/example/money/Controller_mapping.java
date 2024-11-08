@@ -22,6 +22,11 @@ public class Controller_mapping {
     public String calculate() {
         return "Calculator";
     }
+    @GetMapping("addKathegorie")
+    public String addKathegorie()
+    {
+        return "BudgetForm";
+    }
 
     //Get input from User
     //-------------------------
