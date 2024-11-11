@@ -22,6 +22,11 @@ public class Controller_mapping {
     public String calculate() {
         return "Calculator";
     }
+    @GetMapping("addKathegorie")
+    public String addKathegorie()
+    {
+        return "BudgetForm";
+    }
 
     //Get input from User
     //-------------------------
@@ -33,7 +38,6 @@ public class Controller_mapping {
         for (String result : savingsResults) {
             response.append(result).append("\n");
         }
-
         return response.toString();
     }
 }
