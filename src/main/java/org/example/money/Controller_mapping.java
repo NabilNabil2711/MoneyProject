@@ -38,7 +38,6 @@ public class Controller_mapping {
         for (String result : savingsResults) {
             response.append(result).append("\n");
         }
-
         return response.toString();
     }
 }
