@@ -2,16 +2,20 @@ package org.example.money;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import java.util.ArrayList;
 import java.util.List;
+//SQL/DATABASE
+import java.sql.*;
+import Models.Connectdb;
 @SpringBootApplication
 public class MoneyApplication {
-    public int salary;
 
     public static void main(String[] args) {
         SpringApplication.run(MoneyApplication.class, args);
         {
             System.out.println("Hello");
+
         }
 
     }
@@ -28,4 +32,5 @@ public class MoneyApplication {
 
         return results;
     }
+
 }
