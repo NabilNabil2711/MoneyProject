@@ -21,13 +21,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web:3.3.2'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.3.2'
-    implementation 'org.xerial.sqlite-jdbc:sqlite-jdbc:3.47.0'
-
+    implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 
-}
+   }
 
 tasks.named('test') {
     useJUnitPlatform()

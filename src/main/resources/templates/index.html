@@ -3,17 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <style>
+    body{
+        background-color: #bcbcff;
+    }
 
+    .popup-content {
+        display: none;
+        background-color: #fefefe;
+        padding: 20px;
+        border: 7px solid #888;
+        width: 10%;
+
+    }
+    .close-btn {
+        color: #aaa;
+        float: right;
+        font-size: 40px;
+    }
+    .close-btn:hover,
+    .close-btn:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    #openFormBtn{
+        background-color: blue;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+    }
     </style>
     <title>Index</title>
 </head>
 <body>
 
-<h1> Money</h1>
+<h1>Money</h1>
 
-<a href="http://localhost:8083/calculate">Go to Calculate</a>
-<a href="http://localhost:8083/addKathegorie">Add a Kathegorie</a>
 
+<button id="openFormBtn">Add Budget</button>
+
+    <div class="popup-content" id="popup">
+        <span class="close-btn">&times;</span>
+        <form id="budgetForm" action="/getBudget" method="post">
+
+            <input type="text" title="spendingCategory" name="Category" id="Category"/><br>
+            <label for="Category">Add new Category: </label><br>
+
+            <input type="number" title="Budget" name="budget_name" id="Budget"/><br>
+            <label for="Budget">Wie viel möchtest du ausgeben : </label><br>
+            <input type="submit" value="Save" onclick="changeAction('/getBudget')"/>
+            <input type="submit" value="Delete" onclick="changeAction('/deleteBudget')"/>
+        </form>
+    </div>
+
+<script>
+    function changeAction(newAction) {
+        document.get('budgetForm').action = newAction;
+        document.getElementById('budgetForm').submit();
+    }
+
+    // Get the modal
+    var popup = document.getElementById("popup");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("openFormBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close-btn")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function() {
+        popup.style.display = "block";
+    }
+
+    span.onclick = function() {
+        popup.style.display = "none";
+    }
+
+</script>
 
 
 </body>
