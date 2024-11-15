@@ -3,17 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <style>
-
+    body{
+        background-color: #bcbcff;
+    }
     </style>
     <title>Index</title>
 </head>
 <body>
 
-<h1> Money</h1>
+<h1>Money</h1>
 
-<a href="http://localhost:8083/calculate">Go to Calculate</a>
-<a href="http://localhost:8083/addKathegorie">Add a Kathegorie</a>
 
+<form id="budgetForm" action="/getBudget" method="post">
+
+    <label for ="Category">What is yout class : </label></br>
+    <input type="text" title ="spendingCategory" name="Category" id="Category"/></br>
+
+    <label for ="Budget"> wie viel möchtest du ausgeben : </label></br>
+    <input type="number" title ="Budget" name="budget_name" id="Budget"/></br>
+
+    <input type="submit" value="Save" onclick="changeAction('/getBudget')"/>
+    <input type="submit" value="Delete" onclick="changeAction('/deleteBudget')"/>
+</form>
+<script>
+    function changeAction(newAction) {
+        document.getElementById('budgetForm').action = newAction;
+        document.getElementById('budgetForm').submit();
+    }
+</script>
 
 
 </body>
