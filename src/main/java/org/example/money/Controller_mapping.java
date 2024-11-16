@@ -29,6 +29,7 @@ public class Controller_mapping {
     }
     @PostMapping("/deleteBudget")
     public String deleteBudget(@RequestParam("Category")String Category){
+        System.out.println(Category);
         application.deleteFromBudget(1,Category);
         return "index";
     }
