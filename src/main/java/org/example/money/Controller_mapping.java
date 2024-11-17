@@ -21,7 +21,7 @@ public class Controller_mapping {
     MoneyApplication application=new MoneyApplication();
 
 
-   @GetMapping
+   @GetMapping()
     public String hello(Model model) throws SQLException, JsonProcessingException {
        List<Budget> budgets= new ArrayList<>();
        ResultSet resultSet = application.selectAllData(1);
@@ -43,16 +43,21 @@ public class Controller_mapping {
     //Get input from User
     //-------------------------
 
-        @PostMapping("/addBudget")
+    @PostMapping("/addBudget")
     public String getBudget(@RequestParam("budget_name")int budget,@RequestParam("Category") String Category)
     {
         application.AddBudget(1,Category,budget);
-        return "index";
+        return "redirect:/";
     }
     @PostMapping("/deleteBudget")
     public String deleteBudget(@RequestParam("Category")String Category){
         System.out.println(Category);
         application.deleteFromBudget(1,Category);
-        return "index";
+return "redirect:/";
     }
+
+    //Get all data
+    //Update list
+
+
 }
