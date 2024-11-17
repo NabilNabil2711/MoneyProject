@@ -2,8 +2,6 @@ package org.example.money;
 import Models.Budget;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.boot.autoconfigure.web.ErrorProperties;
-import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,15 +22,15 @@ public class Controller_mapping {
    @GetMapping()
     public String hello(Model model) throws SQLException, JsonProcessingException {
        List<Budget> budgets= new ArrayList<>();
-       ResultSet resultSet = application.selectAllData(1);
-       while (resultSet.next())
-       {
-           Budget Eintrag=new Budget(resultSet.getString("CATEGORY"),resultSet.getInt("budget"));
-           budgets.add(Eintrag);
-           System.out.println(Eintrag.getCategory());
-           System.out.println(Eintrag.getBudget());
+       try (ResultSet resultSet = application.selectAllData(1)) {
+           while (resultSet.next()) {
+               Budget Eintrag = new Budget(resultSet.getString("CATEGORY"), resultSet.getInt("budget"));
+               budgets.add(Eintrag);
+               System.out.println(Eintrag.getCategory());
+               System.out.println(Eintrag.getBudget());
 
-}
+           }
+       }
        ObjectMapper objectMapper = new ObjectMapper();
        String json=objectMapper.writeValueAsString(budgets);
        model.addAttribute("budgets",json);
