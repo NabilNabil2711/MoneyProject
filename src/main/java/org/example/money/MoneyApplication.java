@@ -62,5 +62,20 @@ public class MoneyApplication {
             e.printStackTrace();
         }
     }
+    public ResultSet selectAllData(int id) {
+        Connection connection = null;
+        try {
+            connection = new Connectdb().getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT CATEGORY,budget FROM BUDGET WHERE ID = ?");
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 
 }

@@ -38,31 +38,38 @@
     }
     </style>
     <title>Index</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.js"></script>
+
 </head>
 <body>
 
 <h1>Money</h1>
 
+<div>
+    <canvas id="myChart" width="400" height="400" style="display: block; box-sizing: border-box; width: 200px; height: 200px;"></canvas></div>
 
 <button id="openFormBtn">Add Budget</button>
 
     <div class="popup-content" id="popup">
         <span class="close-btn">&times;</span>
-        <form id="budgetForm" action="/getBudget" method="post">
+        <form id="budgetForm" action="" method="post">
 
             <input type="text" title="spendingCategory" name="Category" id="Category"/><br>
             <label for="Category">Add new Category: </label><br>
 
             <input type="number" title="Budget" name="budget_name" id="Budget"/><br>
-            <label for="Budget">Wie viel möchtest du ausgeben : </label><br>
-            <input type="submit" value="Save" onclick="changeAction('/getBudget')"/>
-            <input type="submit" value="Delete" onclick="changeAction('/deleteBudget')"/>
+            <label for="Budget">Wie viel möchtest du ausgeben: </label><br>
+
+            <input type="submit" value="Save" onclick="Action('/addBudget')"/>
+            <input type="submit" value="Delete" onclick="Action('/deleteBudget')"/>
+
         </form>
     </div>
 
 <script>
-    function changeAction(newAction) {
-        document.get('budgetForm').action = newAction;
+    function Action(newAction) {
+
+        document.getElementById('budgetForm').action = newAction;
         document.getElementById('budgetForm').submit();
     }
 
@@ -85,7 +92,38 @@
     }
 
 </script>
+<script th:inline="javascript">
+    const Budgets = JSON.parse([[${budgets}]]);
 
+    const Labels =Budgets.map((budget)=>budget.category)
+    const data =Budgets.map((budget)=>budget.budget)
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels:Labels ,
+            datasets: [{
+                label: Labels,
+                data:data ,
+                backgroundColor: [
+                    ],
+                }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Mein Kreisdiagramm'
+                }
+            }
+        }
+    });
+</script>
 
 </body>
 </html>
