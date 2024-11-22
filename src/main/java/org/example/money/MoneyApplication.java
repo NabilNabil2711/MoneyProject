@@ -10,33 +10,26 @@ import java.sql.*;
 import Models.Connectdb;
 @SpringBootApplication
 public class MoneyApplication {
-
+    private Connection connection;
     public static void main(String[] args) {
         SpringApplication.run(MoneyApplication.class, args);
         {
             System.out.println("Hello");
             MoneyApplication app = new MoneyApplication();
+            app.connection = app.initializeConnection();
+
         }
     }
 
-    public List<String> calculateSavings(int savingsRate) {
-        int years = 12;
-        int totalSavings = 0;
-        List<String> results = new ArrayList<>();
-
-        for (int year = 1; year <= years; year++) {
-            totalSavings += savingsRate*12;
-            results.add("Jahr " + year + ": " + totalSavings);
-        }
-
-        return results;
+    //DB section
+    private Connection initializeConnection() {
+        connection = new Connectdb().getConnection();
+        return connection;
     }
-    public void AddBudget(int ID,String category, int budget)
-    {
-        Connection connection = null;
+    public void AddBudget(int ID,String category, int budget) {
+
 
         try {
-            connection = new Connectdb().getConnection();
             PreparedStatement statement = connection.prepareStatement("INSERT INTO BUDGET (ID, Category, Budget) VALUES (?,?,?)");
             statement.setInt(1, ID);
             statement.setString(2, category);
@@ -48,12 +41,8 @@ public class MoneyApplication {
 
             e.printStackTrace();}
     }
-
     public void deleteFromBudget(int ID, String category){
-        Connection connection = null;
-
         try{
-            connection = new Connectdb().getConnection();
             PreparedStatement statement = connection.prepareStatement("DELETE FROM BUDGET WHERE ID = ? AND Category = ?");
             statement.setInt(1, ID);
             statement.setString(2, category);
@@ -68,14 +57,11 @@ public class MoneyApplication {
             connection = new Connectdb().getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT CATEGORY,budget FROM BUDGET WHERE ID = ?");
             statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            return resultSet;
+            return  statement.executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-
-
-
 }
+

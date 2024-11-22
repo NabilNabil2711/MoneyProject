@@ -22,15 +22,14 @@ public class Controller_mapping {
    @GetMapping()
     public String hello(Model model) throws SQLException, JsonProcessingException {
        List<Budget> budgets= new ArrayList<>();
+
        try (ResultSet resultSet = application.selectAllData(1)) {
            while (resultSet.next()) {
-               Budget Eintrag = new Budget(resultSet.getString("CATEGORY"), resultSet.getInt("budget"));
+               Budget Eintrag = new Budget(resultSet.getString("CATEGORY_DB"), resultSet.getInt("BUDGET_ID"));
                budgets.add(Eintrag);
-               System.out.println(Eintrag.getCategory());
-               System.out.println(Eintrag.getBudget());
-
            }
        }
+
        ObjectMapper objectMapper = new ObjectMapper();
        String json=objectMapper.writeValueAsString(budgets);
        model.addAttribute("budgets",json);
