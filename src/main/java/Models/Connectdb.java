@@ -6,8 +6,9 @@ import java.sql.SQLException;
 public class Connectdb
 {
     private Connection connection;
-    private String DB_URL = "jdbc:sqlite:/Users/nabil.nabil/Code/Money/Budget.db";
-    public Connectdb() {
+    public Connectdb(String db_URL) {
+     String DB_URL = db_URL;
+
         try {
             connection = DriverManager.getConnection(DB_URL);
             System.out.println("Connected to the database successfully!");

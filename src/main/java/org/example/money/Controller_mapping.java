@@ -17,9 +17,13 @@ import java.util.List;
 @Controller
 public class Controller_mapping {
     MoneyApplication application=new MoneyApplication();
+    @GetMapping()
+    public String Login(){
+        return "loginSite";
+    }
 
 
-   @GetMapping()
+   @GetMapping("/index")
     public String hello(Model model) throws SQLException, JsonProcessingException {
        List<Budget> budgets= new ArrayList<>();
        try (ResultSet resultSet = application.selectAllData(1)) {
@@ -53,9 +57,11 @@ public class Controller_mapping {
         application.deleteFromBudget(1,Category);
 return "redirect:/";
     }
+    @PostMapping("/login")
+    public String  Login(@RequestParam("userID")int userID,@RequestParam("password")String password) throws SQLException {
 
-    //Get all data
-    //Update list
-
+    application.CheckLoginData(userID,password);
+return "/index";
+    }
 
 }
