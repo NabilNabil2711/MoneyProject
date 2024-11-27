@@ -16,29 +16,30 @@ import java.util.List;
 
 @Controller
 public class Controller_mapping {
-    MoneyApplication application=new MoneyApplication();
+
+
+    MoneyApplication application = new MoneyApplication();
+    int user_id;
+
     @GetMapping()
-    public String Login(){
+    public String Login() {
         return "loginSite";
     }
 
 
-   @GetMapping("/index")
+    @GetMapping("/loadData")
     public String hello(Model model) throws SQLException, JsonProcessingException {
-       List<Budget> budgets= new ArrayList<>();
-       try (ResultSet resultSet = application.selectAllData(1)) {
-           while (resultSet.next()) {
-               Budget Eintrag = new Budget(resultSet.getString("CATEGORY"), resultSet.getInt("budget"));
-               budgets.add(Eintrag);
-               System.out.println(Eintrag.getCategory());
-               System.out.println(Eintrag.getBudget());
-
-           }
-       }
-       ObjectMapper objectMapper = new ObjectMapper();
-       String json=objectMapper.writeValueAsString(budgets);
-       model.addAttribute("budgets",json);
-       return "index";
+        List<Budget> budgets = new ArrayList<>();
+        try (ResultSet resultSet = application.selectAllData(user_id)) {
+            while (resultSet.next()) {
+                Budget Eintrag = new Budget(resultSet.getString("CATEGORY"), resultSet.getInt("budget"));
+                budgets.add(Eintrag);
+            }
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(budgets);
+        model.addAttribute("budgets", json);
+        return "index";
     }
 
 
@@ -46,22 +47,28 @@ public class Controller_mapping {
     //-------------------------
 
     @PostMapping("/addBudget")
-    public String getBudget(@RequestParam("budget_name")int budget,@RequestParam("Category") String Category)
-    {
-        application.AddBudget(1,Category,budget);
-        return "redirect:/";
+    public String getBudget(@RequestParam("budget_name") int budget, @RequestParam("Category") String Category) {
+        application.AddBudget(user_id, Category, budget);
+        return "redirect:/index";
     }
+
     @PostMapping("/deleteBudget")
-    public String deleteBudget(@RequestParam("Category")String Category){
+    public String deleteBudget(@RequestParam("Category") String Category) {
         System.out.println(Category);
-        application.deleteFromBudget(1,Category);
-return "redirect:/";
+        application.deleteFromBudget(user_id, Category);
+        return "redirect:/index";
     }
+
     @PostMapping("/login")
-    public String  Login(@RequestParam("userID")int userID,@RequestParam("password")String password) throws SQLException {
+    public String Login(@RequestParam("userID") int userID, @RequestParam("password") String password) throws SQLException {
 
-    application.CheckLoginData(userID,password);
-return "/index";
+        if (application.CheckLoginData(userID, password))
+        {
+            user_id = userID;
+            return "redirect:/loadData";
+
+        } else {
+            return "loginSite";
+        }
     }
-
 }

@@ -11,8 +11,11 @@ import Models.Connectdb;
 @SpringBootApplication
 public class MoneyApplication {
 
-    private String DB_URL = "jdbc:sqlite:/Users/nabil.nabil/Code/Money/BUDGET.db";
+    public int userID(int currentID){
+    return currentID;
 
+    }
+    private String DB_URL = "jdbc:sqlite:/Users/nabil.nabil/Code/Money/BUDGET.db";
     public static void main(String[] args) {
         SpringApplication.run(MoneyApplication.class, args);
         {
@@ -20,6 +23,7 @@ public class MoneyApplication {
             MoneyApplication app = new MoneyApplication();
         }
     }
+
 
     public List<String> calculateSavings(int savingsRate) {
         int years = 12;
@@ -80,54 +84,48 @@ public class MoneyApplication {
         }
     }
 
-    public void CheckLoginData(int ID, String password) throws SQLException {
-        // Verbindung zur LOGIN-Datenbank
+    public boolean CheckLoginData(int ID, String password) throws SQLException {
         Connection connection = null;
+        boolean loginSuccessful = false;
+
         try {
-            System.out.println("Checking login data...");
             connection = new Connectdb(DB_URL).getConnection();
 
-            // Überprüfen, ob der Benutzer existiert
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT PASSWORD_DB FROM LOGIN WHERE ID_DB = ?");
             preparedStatement.setInt(1, ID);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                // Benutzer existiert, Passwort überprüfen
-                String storedPassword = resultSet.getString("PASSWORD_DB"); // Korrigiert: Der Spaltenname sollte "PASSWORD_DB" sein
+                String storedPassword = resultSet.getString("PASSWORD_DB");
                 if (storedPassword.equals(password)) {
                     System.out.println("Login successful!");
+                    loginSuccessful = true;
                 } else {
                     System.out.println("Incorrect password.");
+                    loginSuccessful = false;
                 }
             } else {
-                // Benutzer existiert nicht, also neuen Benutzer hinzufügen
                 addUser(connection, ID, password);
+                loginSuccessful = true;
             }
-        } catch (SQLException e) {
-            System.out.println("SQL Fehler: " + e.getMessage());
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.out.println("Ein unerwarteter Fehler ist aufgetreten: " + e.getMessage());
-            e.printStackTrace();
         } finally {
-            // Verbindung schließen
             if (connection != null) {
                 try {
                     connection.close();
                 } catch (SQLException e) {
-                    System.out.println("Fehler beim Schließen der Verbindung: " + e.getMessage());
+
                 }
             }
         }
-    }
 
+        return loginSuccessful;
+    }
     private void addUser(Connection connection, int userId, String password) throws SQLException {
         System.out.println("Adding user " + userId);
         String insertSql = "INSERT INTO LOGIN (ID_DB, PASSWORD_DB) VALUES (?, ?)";
         try (PreparedStatement insertStatement = connection.prepareStatement(insertSql)) {
             insertStatement.setInt(1, userId);
-            insertStatement.setString(2, password); // Passwort wird als Klartext gespeichert
+            insertStatement.setString(2, password);
 
             int rowsAffected = insertStatement.executeUpdate();
             if (rowsAffected > 0) {
