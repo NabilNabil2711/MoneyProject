@@ -15,7 +15,7 @@ public class MoneyApplication {
     return currentID;
 
     }
-    private String DB_URL = "jdbc:sqlite:/Users/nabil.nabil/Code/Money/BUDGET.db";
+    private String DB_URL = "jdbc:sqlite:/Users/nabil.nabil/Code/MoneyProject/Budget.db";
     public static void main(String[] args) {
         SpringApplication.run(MoneyApplication.class, args);
         {

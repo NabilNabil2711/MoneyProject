@@ -49,14 +49,14 @@ public class Controller_mapping {
     @PostMapping("/addBudget")
     public String getBudget(@RequestParam("budget_name") int budget, @RequestParam("Category") String Category) {
         application.AddBudget(user_id, Category, budget);
-        return "redirect:/index";
+        return "redirect:/loadData";
     }
 
     @PostMapping("/deleteBudget")
     public String deleteBudget(@RequestParam("Category") String Category) {
         System.out.println(Category);
         application.deleteFromBudget(user_id, Category);
-        return "redirect:/index";
+        return "redirect:/loadData";
     }
 
     @PostMapping("/login")
