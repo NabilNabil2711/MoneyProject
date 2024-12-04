@@ -60,13 +60,13 @@ public class Controller_mapping {
     }
 
     @PostMapping("/login")
-    public String Login(@RequestParam("userID") int userID, @RequestParam("password") String password) throws SQLException {
+    public String Login(@RequestParam("userName") String userName, @RequestParam("password") String password) throws SQLException {
 
-        if (application.CheckLoginData(userID, password))
-        {
-            user_id = userID;
+        Integer userId = application.getUserId(userName, password);
+
+        if (userId != null && userId != -1) {
+            user_id = userId;
             return "redirect:/loadData";
-
         } else {
             return "loginSite";
         }

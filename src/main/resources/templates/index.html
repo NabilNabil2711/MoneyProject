@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <style>
@@ -73,16 +75,12 @@
         document.getElementById('budgetForm').submit();
     }
 
-    // Get the modal
-    var popup = document.getElementById("popup");
+    const popup = document.getElementById("popup");
 
-    // Get the button that opens the modal
-    var btn = document.getElementById("openFormBtn");
+    const btn = document.getElementById("openFormBtn");
+    const span = document.getElementsByClassName("close-btn")[0];
 
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close-btn")[0];
 
-    // When the user clicks the button, open the modal
     btn.onclick = function() {
         popup.style.display = "block";
     }

@@ -3,16 +3,16 @@ package Models;
 public class Budget
 {
 
-    private String category; // This can be an enum if categories are fixed
+    private String category;
     private int budget;
 
-    // Constructor, getters, and setters
+
     public Budget( String category, int amount) {
 
         this.category = category;
         this.budget = amount;
     }
-    // Getters
+
 
 
     public String getCategory() {
